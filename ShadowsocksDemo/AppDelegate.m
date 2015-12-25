@@ -20,10 +20,10 @@ static ShadowsocksClient *proxy;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    proxy = [[ShadowsocksClient alloc] initWithHost:<@"remote server host">
-                                               port:<remote server port>
-                                           password:<@"password">
-                                             method:<@"method">];
+    proxy = [[ShadowsocksClient alloc] initWithHost:@"45.78.2.21"
+                                               port:443
+                                           password:@"ByzSbH880f"
+                                             method:@"aes-256-cfb"];
     [proxy startWithLocalPort:1080];
     [SSProxyProtocol setLocalPort:1080];
     [NSURLProtocol registerClass:[SSProxyProtocol class]];
