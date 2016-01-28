@@ -49,6 +49,8 @@ static NSURLSession *session;
 
 - (void)startLoading
 {
+    
+    //这里拦截所有请求，给请求配置一个configuration
     if (!session) {
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.connectionProxyDictionary =
