@@ -81,6 +81,7 @@ static NSURLSession *session;
     static NSArray *blockedHosts;
     if (blockedHosts == nil) {
         blockedHosts = @[
+            @"64.233.162.84",
             @"1dpw.com",
             @"buy.itunes.apple.com",
             @"google.ca",

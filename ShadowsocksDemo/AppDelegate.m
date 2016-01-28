@@ -20,13 +20,21 @@ static ShadowsocksClient *proxy;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    proxy = [[ShadowsocksClient alloc] initWithHost:<@"remote server host">
-                                               port:<remote server port>
-                                           password:<@"password">
-                                             method:<@"method">];
-    [proxy startWithLocalPort:1080];
-    [SSProxyProtocol setLocalPort:1080];
+    
+    //实例化一个shadowsocks client类，并赋予类的一些属性
+    proxy = [[ShadowsocksClient alloc] initWithHost:@"45.78.2.21"
+                                               port:443
+                                           password:@"ByzSbH880f"
+                                             method:@"aes-256-cfb"];
+    //proxy类是NSURLProtocol的子类，,处理socket的accept和bind()等事件及其回调
+    //proxy可以将流量导到代理服务器上去
+    [proxy startWithLocalPort:10800];
+    //ssproxyProtocal是NSURLProtocol的子类，里面规定了所有请求应该走的端口，并在这个类里面调用代理的回调通知上一级
+    [SSProxyProtocol setLocalPort:10800];
     [NSURLProtocol registerClass:[SSProxyProtocol class]];
+    
+    //一旦有请求，会先走SSProxyProtocol，SSProxyProtocol会将流量导向自己规定的10800端口，在10800端口上会有一个socket代理，会将流量加密然后发出去。
+    
     // Override point for customization after application launch.
     return YES;
 }
