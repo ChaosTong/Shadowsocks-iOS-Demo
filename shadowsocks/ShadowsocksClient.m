@@ -223,7 +223,7 @@
     
     
     // Fake reply
-    //这个地方是告诉客户端应该以什么样的协议来通信
+    //这个地方是告诉客户端应该以什么样的协议来通信（猜的）
     struct socks5_response response;
     response.ver = SOCKS_VERSION;
     response.rep = 0;
@@ -240,7 +240,7 @@
     memcpy(replayBytes + 4, &sin_addr, sizeof(struct in_addr));
     *((unsigned short *)(replayBytes + 4 + sizeof(struct in_addr)))
     = (unsigned short) htons(atoi("22"));
-    //向local socket写数据，也就是说向客户端发送一个自己构造的数据,估计就是构造一个远端的握手应答
+    //向local socket写数据，也就是说向客户端发送一个自己构造的数据
     //触发didWriteData，并将tag切换为3
     [pipeline.localSocket
      writeData:[NSData dataWithBytes:replayBytes length:reply_size]
@@ -393,6 +393,7 @@
     
     if (tag == 0) {
         //从local socket发出去的建立连接的数据已经送出，这时将tag切换为1，此时也只有local socket
+        //接下来触发的就是didReadData,对应的就是开始连接remote socket
         [pipeline.localSocket readDataWithTimeout:-1 tag:1];
     } else if (tag == 1) {
         

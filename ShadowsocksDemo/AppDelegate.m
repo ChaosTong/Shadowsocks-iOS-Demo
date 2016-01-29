@@ -22,7 +22,7 @@ static ShadowsocksClient *proxy;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //实例化一个shadowsocks client类，并赋予类的一些属性
-    proxy = [[ShadowsocksClient alloc] initWithHost:@"45.78.2.21"
+    proxy = [[ShadowsocksClient alloc] initWithHost:@"ip"
                                                port:443
                                            password:@"ByzSbH880f"
                                              method:@"aes-256-cfb"];
