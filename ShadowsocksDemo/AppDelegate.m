@@ -18,11 +18,20 @@ static ShadowsocksClient *proxy;
 
 @implementation AppDelegate
 
+/*
+ 1、流量代理在这个例子里面的思路是将所有流量导入到规定的端口发出去；
+ 2、再监听这个给定的端口，监听之后经过这个端口的流量可以拿到；
+ 3、一开始向给定的端口发送自己构造的数据，告诉应该该端口发送的数据应该以什么协议版本和方法发送；
+ 4、紧接着，app的请求发出，请求数据被拦截，加密，然后连接代理服务器的socket，在连接成功之后会将之前拦截并加密的数据发出去；
+ 5、因为这个地方将本地发送的数据拦截了，所以需要自己构造一个数据，形成一个fake reply回复一下客户端。
+ 6、接下来就是等待代理服务器那边的回复了，回复过来的数据解密然后发给1080端口。
+ */
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //实例化一个shadowsocks client类，并赋予类的一些属性
-    proxy = [[ShadowsocksClient alloc] initWithHost:@"ip"
+    proxy = [[ShadowsocksClient alloc] initWithHost:<your ip>
                                                port:443
                                            password:@"ByzSbH880f"
                                              method:@"aes-256-cfb"];

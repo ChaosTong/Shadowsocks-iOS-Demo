@@ -207,10 +207,7 @@
     
     //NSLog(@"remote did connect to host");
     
-    
-    NSString *s = [[NSString alloc] initWithBytes:pipeline.addrData.bytes length:pipeline.addrData.length encoding:NSASCIIStringEncoding];
-    
-    NSLog(@"连接到host：%@后向remote发送%@数据", host,s);
+   
     
     //向remotesocke写数据 并将tag切换为2， 会触发didWriteData
     //触发didWriteData中tag == 2的情况没有处理。
@@ -246,10 +243,7 @@
      writeData:[NSData dataWithBytes:replayBytes length:reply_size]
      withTimeout:-1
      tag:3];
-    NSString *localData = [[NSString alloc] initWithBytes:replayBytes length:reply_size encoding:NSASCIIStringEncoding];
     
-    NSLog(@"连接到host：%@后向local发送%@数据", host,localData);
-
     free(replayBytes);
 }
 //The tag parameter is the tag you passed when you requested the read operation. For example, in the readDataWithTimeout:tag: method.
@@ -343,7 +337,8 @@
         init_encryption(&(pipeline->recvEncryptionContext));
         //将地址信息加密,这个时候还没有发送出去，
         encrypt_buf(&(pipeline->sendEncryptionContext), addr_to_send, &addr_len);
-        //正如之前提到过的，这里的addr_to_send就是请求
+        //正如之前提到过的，这里的addr_to_send就是请求数据
+        //这里会触发didConnect回调，在didConect中将请求数据发出去
         pipeline.addrData = [NSData dataWithBytes:addr_to_send length:addr_len];
         
 //        NSLog(@"%@++++", [[NSString alloc] initWithData:pipeline.addrData encoding:NSASCIIStringEncoding]);
