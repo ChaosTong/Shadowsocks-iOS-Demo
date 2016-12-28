@@ -1,5 +1,6 @@
 # Shadowsocks-iOS-Demo
-Demo how to build an iOS project with shadowsocks buildin.
+Demo how to build an iOS project with shadowsocks buildin.  
+
 fix rc4-md5 auth algorithm
 
 * Clone this project.
