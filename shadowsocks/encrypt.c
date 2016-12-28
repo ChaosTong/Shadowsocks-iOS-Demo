@@ -2,6 +2,7 @@
 #include <openssl/rand.h>
 #include <strings.h>
 #include "encrypt.h"
+#import <openssl/md5.h>
 
 int encryption_iv_len[] = {
         16,
@@ -16,6 +17,7 @@ int encryption_iv_len[] = {
         8,
         8,
         0,
+        16,
         16
 };
 
@@ -32,6 +34,7 @@ static const char *encryption_names[] = {
         "idea-cfb",
         "rc2-cfb",
         "rc4",
+        "rc4-md5",
         "seed-cfb"
 };
 
@@ -125,8 +128,19 @@ void init_cipher(struct encryption_ctx *ctx, const unsigned char *iv, int iv_len
         return;
     }
     EVP_CIPHER_CTX_set_padding(ctx->ctx, 1);
+    
+    // add rc4-md5
+    unsigned char *true_key;
+    if (_method == 12) {
+        unsigned char key_iv[32];
+        memcpy(key_iv, _key, 16);
+        memcpy(key_iv + 16, iv, 16);
+        true_key = MD5(key_iv, 32, NULL);
+    } else {
+        true_key = _key;
+    }
 
-    EVP_CipherInit_ex(ctx->ctx, NULL, NULL, _key, iv, is_cipher);
+    EVP_CipherInit_ex(ctx->ctx, NULL, NULL, true_key, iv, is_cipher);
 }
 
 void init_encryption(struct encryption_ctx *ctx) {
@@ -149,6 +163,10 @@ void config_encryption(const char *password, const char *method) {
     if (_cipher == NULL) {
 //            assert(0);
         // TODO
+        if (_method == 12) {
+            name = "RC4";
+        }
+        _cipher = EVP_get_cipherbyname(name);
     }
     unsigned char tmp[EVP_MAX_IV_LENGTH];
     _key_len = EVP_BytesToKey(_cipher, EVP_md5(), NULL, password,

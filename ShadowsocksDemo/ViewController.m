@@ -25,13 +25,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.webview.frame = self.view.bounds;
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(start) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(start) userInfo:nil repeats:NO];
 
 }
 
 - (void)start {
-    [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://twitter.com"]]];
-//    [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://64.233.162.84"]]];
+    [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com"]]];
+//    [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://baidu.com"]]];
 }
 
 @end

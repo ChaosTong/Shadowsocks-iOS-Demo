@@ -32,10 +32,10 @@ static ShadowsocksClient *proxy;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //实例化一个shadowsocks client类，并赋予类的一些属性
-    proxy = [[ShadowsocksClient alloc] initWithHost:<your ip>
+    proxy = [[ShadowsocksClient alloc] initWithHost:@""
                                                port:443
-                                           password:@"ByzSbH880f"
-                                             method:@"aes-256-cfb"];
+                                           password:@""
+                                             method:@"rc4-md5"];
     //proxy类是NSURLProtocol的子类，,处理socket的accept和bind()等事件及其回调
     //proxy可以将流量导到代理服务器上去
     [proxy startWithLocalPort:10800];
